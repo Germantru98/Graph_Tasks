@@ -476,10 +476,10 @@ namespace GraphPrj
             return Matrix;
         }
 
-        public void Dijkstra(Vertex vertex, int N)//IVa - 8
+        public void Dijkstra(Vertex start, Vertex v)//IVa - 8
         {
             int n = VertexWeight.Count;
-            int st = vertex.ID;
+            int st = start.ID;
             int[,] w = AdjMatrixOfWeights(0);
             bool[] visited = new bool[n];
             int[] D = new int[n];
@@ -511,18 +511,13 @@ namespace GraphPrj
                     }
                 }
             }
-            Console.WriteLine("Стоимость пути из начальной вершины до остальных(Алгоритм Дейкстры)");
+            Console.WriteLine("Стоимость пути из начальной вершины {0} до  {1} = {2} ", st, v.ID, D[v.ID]);
             for (int i = 0; i < n; i++)
             {
                 if (D[i] != int.MaxValue)
                     Console.WriteLine(st + " -> " + i + " = " + D[i]);
                 else
                     Console.WriteLine(st + " -> " + i + " = " + "маршрут недоступен");
-            }
-            for (int i = 0; i < n; i++)
-            {
-                if (D[i] < N && i != vertex.ID)
-                { Console.WriteLine("Расстояние от заданной вершины {0} до {1} меньше N", vertex.ID, i); }
             }
         }
 
@@ -579,7 +574,7 @@ namespace GraphPrj
             return Radius;
         }
 
-        public void ClearB_F(Vertex vertex)
+        public int B_F(Vertex vertex)
         {
             int min(int a, int b)
             {
@@ -589,6 +584,7 @@ namespace GraphPrj
                     return b;
             }
             int n = VertexWeight.Count;
+            int res = 0;
             int[] d = new int[n];
             for (int i = 0; i < n; i++)
             {
@@ -609,18 +605,17 @@ namespace GraphPrj
             }
             for (int i = 0; i < n; i++)
             {
-                if (i != vertex.ID)
+                if (d[i] != int.MaxValue)
                 {
-                    if (d[i] != int.MaxValue)
-                        Console.WriteLine(vertex.ID + " -> " + i + " = " + d[i]);
-                    else
-                        Console.WriteLine(vertex.ID + " -> " + i + " = " + "маршрут недоступен");
+                    res += d[i];
                 }
             }
+            return res;
         }
 
-        public void FU()
+        public void Task_IVb_FU(int P)
         {
+            int[] res = new int[VertexWeight.Keys.Count];
             int[,] d = AdjMatrixOfWeights(1);
             int n = VertexWeight.Count;
             int k, i, j;
@@ -639,8 +634,16 @@ namespace GraphPrj
                 for (j = 0; j < n; j++)
                 {
                     Console.Write(d[i, j] + " ");
+                    res[i] += d[i, j];
                 }
                 Console.WriteLine();
+            }
+            for (i = 0; i < res.Length; i++)
+            {
+                if (res[i] < P)
+                {
+                    Console.WriteLine("Вершина {0} имеет сумму меньше P", i, res[i]);
+                }
             }
         }
 
@@ -718,6 +721,32 @@ namespace GraphPrj
                 }
             }
             return flag;
+        }
+
+        public void Task_II_23()
+        {
+        }
+
+        public void Task_IVa_15(Vertex u1, Vertex u2, Vertex v)
+        {
+            Dijkstra(u1, v);
+            Dijkstra(u2, v);
+        }
+
+        public void Task_IVc_6()
+        {
+            int min = int.MaxValue;
+            Vertex minVertex = null;
+            foreach (var item in VertexWeight.Keys)
+            {
+                int tmp = B_F(item);
+                if (min > tmp && tmp > 0)
+                {
+                    min = tmp;
+                    minVertex = item;
+                }
+            }
+            Console.WriteLine("Вершина {0} имеет наименьшую сумму длинн кратчайших путей. ({1})", minVertex.ID, min);
         }
     }
 }

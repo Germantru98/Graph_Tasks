@@ -36,6 +36,33 @@ namespace GraphPrj
                     }
                     break;
 
+                case 4:
+                    break;
+
+                case 5:
+                    break;
+
+                case 6:
+                    Graph gr = new Graph("graph.txt");
+                    Console.WriteLine(gr);
+                    Vertex u1 = new Vertex(0);
+                    Vertex u2 = new Vertex(1);
+                    Vertex v = new Vertex(5);
+                    gr.Task_IVa_15(u1, u2, v);
+                    break;
+
+                case 7:
+                    Graph g7 = new Graph("graph.txt");
+                    Console.WriteLine(g7);
+                    g7.Task_IVb_FU(8);
+                    break;
+
+                case 8:
+                    Graph g8 = new Graph("graph.txt");
+                    Console.WriteLine(g8);
+                    g8.Task_IVc_6();
+                    break;
+
                 default:
                     break;
             }
